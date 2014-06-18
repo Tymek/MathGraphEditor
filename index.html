@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Dynamiczna wizualizacja grafów | Tymoteusz Czech &ndash; Tymek.Cz</title>
+	<link href='http://fonts.googleapis.com/css?family=Monda:400,700&subset=latin-ext' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="assets/styles.css" type="text/css">
+	<link rel="shortcut icon"
+	href="assets/favicon.ico" />
+	<script src="assets/lib/yepnope.1.5.4-min.js" charset="utf-8"></script>
+</head>
+<body>
+	<div id="main"></div>
+	<aside id="panel">
+		<h1>Dynamiczna wizualizacja grafów</h1>
+		<p>Przytrzymaj Ctrl i chwyć wierzchołek aby go przesunąć.</p>
+		<hr>
+		
+	</aside>
+<script>
+function cl(x){console.log(x)};
+
+var loader = {
+	ready: false,
+	timeoutCDN: 2000,
+	JQuery: {
+		CDN: "//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js",
+		local: "assets/lib/jquery-2.1.1.min.js",
+	},
+	D3: {
+		CDN: "http://d3js.org/d3.v3.min.js",
+		local: "assets/lib/d3.v3.min.js"
+	},
+	lib: function(){
+		var t = this;
+		yepnope([{
+			load: t.timeoutCDN+"!"+t.JQuery.CDN,
+			callback: function (){
+				if(!window.jQuery){
+					cl("JQuery CDN Error. Using local copy…");
+					yepnope({
+						load: t.JQuery.local,
+						callback: function(){
+							if(!window.jQuery) {
+								cl("Local JQuery Error. STOP");
+								return;
+							}
+							cl("Local JQuery loaded");
+							if(t.ready){
+								cl("Libraries loading done");
+								t.graph();
+							} else {
+								cl("Waiting for D3");
+								t.ready = true;
+							}
+						}
+					});
+				} else {
+					cl("CDN JQuery loaded");
+					if(t.ready){
+						cl("Libraries loading done");
+						t.graph();
+					} else {
+						cl("Waiting for D3");
+						t.ready = true;
+					}
+				}
+			}
+		}, {
+			load: t.timeoutCDN+"!"+t.D3.CDN,
+			callback: function(){
+				if (!window.d3){
+					cl("D3 CDN Error. Using local copy…");
+					yepnope({
+						load: t.D3.local,
+						callback: function(){
+							cl("Local D3 loaded");
+							if(t.ready){
+								cl("Libraries loading done");
+								t.graph();
+							} else {
+								cl("Waiting for JQuery");
+								t.ready = true;
+							}
+						}
+					});
+				} else {
+					cl("CDN D3 loaded.");
+					if(t.ready){
+						cl("Libraries loading done");
+						t.graph();
+					} else {
+						cl("Waiting for JQuery");
+						t.ready = true;
+					}
+				}
+			}
+		}]);
+	}, 
+	graph: function(){
+		var t = this;
+		yepnope({
+			load: 'assets/graph.js',
+			callback: function(){
+				cl("Graph object loaded");
+				t.func();
+			}
+		});
+	},
+	func: function(){
+		var t = this;
+		yepnope({
+			load: 'assets/functions.js',
+			callback: function(){
+				cl("Functions loaded");
+				t.app();
+			}
+		});
+	},
+	app: function(){
+		if(document.readyState === 'complete') yepnope('assets/app.js');
+		else {
+			cl("Waiting for DOM ready state");
+			var tid = setInterval(function(){
+				if (document.readyState !== 'complete') return;
+				clearInterval(tid);
+				yepnope('assets/app.js');
+			}, 100);
+		}
+	},
+	start: function(){
+		this.lib();
+	}
+}
+loader.start();
+
+</script>
+<!-- 
+	<script src="assets/lib/d3.v3.min.js" charset="utf-8"></script>  
+	<script src="assets/graph.js"></script>
+	<script src="assets/functions.js"></script>
+	<script src="assets/app.js"></script> -->
+</body>
+</html>
