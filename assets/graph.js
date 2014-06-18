@@ -1,7 +1,10 @@
 var graph = {
 	V: [],
 	E: [],
-	addVertex: function(label, id){
+	addVertex: function(label,id){
+		this.pushVertex(this.makeVertex(label,id));
+	},
+	makeVertex: function(label, id){
 		if(id === undefined){
 			for(var j = 0; j < this.V.length+1; j++){
 				for(var i = 0; i < this.V.length; i++){
@@ -12,7 +15,16 @@ var graph = {
 			id = j;
 		}
 		if(label === undefined) label = this.generateID();
-		this.V.push({id:id, label: label});
+		return {id:id, label: label};
+	},
+	pushVertex: function(v){
+		this.V.push(v);
+	},
+	removeVertex: function(v){
+		this.cutEdges(v);
+		V = this.V;
+		V.splice(V.indexOf(v), 1);
+		rebuild();
 	},
 	addEdge: function(s, t){
 		if(s==t) type = -1; // loop
@@ -49,8 +61,20 @@ var graph = {
 		}
 		this.E.push({source: this.V[s], target: this.V[t], type: type});
 	},
-	removeEdge: function(i){
-		
+	cutEdges: function(v){
+		var E = this.E;
+		var tmp = E.filter(function(e) {
+			return (e.source === v || e.target === v);
+		});
+		tmp.map(function(e) {
+			E.splice(E.indexOf(e), 1);
+		});
+		rebuild();
+	},
+	removeEdge: function(e){
+		E = this.E;
+		E.splice(E.indexOf(e), 1);
+		rebuild();
 	},
 	type: 0,
 	types: ["undirected", "directed"/* TODO, "mixed"*/],
@@ -94,10 +118,11 @@ var graph = {
 	canvas: d3.select("#main").append("svg"),
 	force: {},
 	updateForce: function(p, v){
+		this.force.stop();
 		if(p === "distance") p = "linkDistance";
 		if(v === undefined)	return this.force[p]();
 		this.force[p](v);
-		return;
+		this.force.start();
 	},
 	colors: null,
 	activeVertex: null,

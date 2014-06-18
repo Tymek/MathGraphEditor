@@ -9,6 +9,7 @@ function mousemove(){
 
 function mouseup(){
 	graph.canvas.classed('active', false);
+	graph.canvas.classed('dragging', false);
 	
 }
 
@@ -32,8 +33,23 @@ function keyup(){
         N.on('mousedown.drag', null)
 		 .on('touchstart.drag', null);
         graph.canvas.classed('ctrl', false);
+        graph.canvas.classed('dragging', false);
     }
 	
 	graph.canvas.attr("data-key", -1);
 }
 
+function dblclick(){
+	if(graph.canvas.classed("ctrl")) return;
+	cl("Add vertex");
+	var v = graph.makeVertex();
+	var p = d3.mouse(this);
+		v.x = p[0];
+		v.y = p[1];
+	graph.pushVertex(v);
+	rebuild();
+}
+
+function resetEvent(){
+	graph.canvas.classed('active', false);
+}

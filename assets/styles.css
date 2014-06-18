@@ -64,7 +64,19 @@ svg {
 	stroke: #222222;
 	stroke-width: 1px;
 	*/
-	}
+}
+	
+.ctrl .vertex {
+	cursor: move;
+	cursor: -webkit-grab;
+	cursor: -moz-grab;
+} 
+
+.dragging, .dragging .vertex {
+	cursor: move;
+	cursor: -webkit-grabbing; 
+	cursor: -moz-grabbing;
+}
 
 svg {
 	background-color: #f0f0f0;
