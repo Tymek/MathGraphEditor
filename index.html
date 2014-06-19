@@ -105,6 +105,16 @@ var loader = {
 			load: 'assets/graph.js',
 			callback: function(){
 				cl("Graph object loaded");
+				t.canvas();
+			}
+		});
+	},
+	canvas: function(){
+		var t = this;
+		yepnope({
+			load: 'assets/canvas.js',
+			callback: function(){
+				cl("Canvas object loaded");
 				t.func();
 			}
 		});

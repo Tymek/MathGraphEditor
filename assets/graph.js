@@ -21,6 +21,7 @@ var graph = {
 		this.V.push(v);
 	},
 	removeVertex: function(v){
+		cl("Remove vertex");
 		this.cutEdges(v);
 		V = this.V;
 		V.splice(V.indexOf(v), 1);
@@ -75,6 +76,7 @@ var graph = {
 		E = this.E;
 		E.splice(E.indexOf(e), 1);
 		rebuild();
+		// TODO sprawdzanie struktury krawêdzi równoleg³ych
 	},
 	type: 0,
 	types: ["undirected", "directed"/* TODO, "mixed"*/],
@@ -114,17 +116,5 @@ var graph = {
 	getType: function(id){
 		if(id === undefined) id = false;
 		return (id) ? this.type : this.types[this.type];
-	},
-	canvas: d3.select("#main").append("svg"),
-	force: {},
-	updateForce: function(p, v){
-		this.force.stop();
-		if(p === "distance") p = "linkDistance";
-		if(v === undefined)	return this.force[p]();
-		this.force[p](v);
-		this.force.start();
-	},
-	colors: null,
-	activeVertex: null,
-	activeEdge: null
+	}
 }

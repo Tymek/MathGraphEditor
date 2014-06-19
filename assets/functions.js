@@ -1,5 +1,5 @@
 function mousedown(){
-	graph.canvas.classed('active', true);
+	canvas.frame.classed('active', true);
 	//cl();
 }
 
@@ -8,21 +8,21 @@ function mousemove(){
 }
 
 function mouseup(){
-	graph.canvas.classed('active', false);
-	graph.canvas.classed('dragging', false);
+	canvas.frame.classed('active', false);
+	canvas.frame.classed('dragging', false);
 	
 }
 
 function keydown(){
 	var k = d3.event.keyCode;
 	if(!(k >= 112 && k <= 123)) d3.event.preventDefault();
-	if(graph.canvas.attr('data-key') != -1) return;
+	if(canvas.frame.attr('data-key') != -1) return;
 	cl("Key pressed ("+k+")");
-	if(k !== 9) graph.canvas.attr('data-key', k);
+	if(k !== 9) canvas.frame.attr('data-key', k);
 	
 	if(k == 17){
-		N.call(graph.force.drag);
-		graph.canvas.classed('ctrl', true);
+		canvas.V.call(canvas.force.drag);
+		canvas.frame.classed('ctrl', true);
 	}
 	
 }
@@ -30,17 +30,17 @@ function keydown(){
 function keyup(){
 	//cl("Key released");
 	if(d3.event.keyCode === 17) {
-        N.on('mousedown.drag', null)
+        canvas.V.on('mousedowcanvas.V.drag', null)
 		 .on('touchstart.drag', null);
-        graph.canvas.classed('ctrl', false);
-        graph.canvas.classed('dragging', false);
+        canvas.frame.classed('ctrl', false);
+        canvas.frame.classed('dragging', false);
     }
 	
-	graph.canvas.attr("data-key", -1);
+	canvas.frame.attr("data-key", -1);
 }
 
 function dblclick(){
-	if(graph.canvas.classed("ctrl")) return;
+	if(canvas.frame.classed("ctrl")) return;
 	cl("Add vertex");
 	var v = graph.makeVertex();
 	var p = d3.mouse(this);
@@ -51,5 +51,5 @@ function dblclick(){
 }
 
 function resetEvent(){
-	graph.canvas.classed('active', false);
+	canvas.frame.classed('active', false);
 }
