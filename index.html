@@ -15,9 +15,12 @@
 	<div id="main"></div>
 	<aside id="panel">
 		<h1>Dynamiczna wizualizacja grafów</h1>
-		<p>Przytrzymaj Ctrl i chwyć wierzchołek aby go przesunąć. Kliknij dwukrotnie w wolnym miejscu aby dodać wierzchołek. Przytrzymaj Ctrl i kliknij dwukrotnie na wierzchołek lub krawędź by usunąć.</p>
+		<p>Przytrzymaj Ctrl i chwyć wierzchołek aby go przesunąć. Kliknij dwukrotnie w wolnym miejscu aby dodać wierzchołek. Przytrzymaj Ctrl i kliknij dwukrotnie na wierzchołek lub krawędź by usunąć. Przeciągnij linię z jednego wierzchołka na drugi by dodać krawędź.</p>
 		<hr>
-		
+		<form action="#">
+			<input type="checkbox" name="gtype" id="gtype" checked>
+			<label for="gtype">Graf skierowany</label>
+		</form>
 	</aside>
 <script>
 function cl(x){console.log(x)};

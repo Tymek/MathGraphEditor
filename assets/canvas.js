@@ -5,6 +5,7 @@ var canvas = {
 	radius: 12,
 	force: d3.layout.force(),
 	step: null,
+	line: null,
 	defs: function(){
 		
 		this.frame.append('svg:defs').append('svg:marker')
@@ -19,21 +20,28 @@ var canvas = {
 			.attr("class", "arrow")
 		;
 		
-		/* Strza³ki koñcowe
-		svg.append('svg:defs').append('svg:marker')
-			.attr('id', 'start-arrow')
+		this.frame.append('svg:defs').append('svg:marker')
+			.attr('id', 'fullarrow')
 			.attr('viewBox', '0 -5 10 10')
-			.attr('refX', 4)
-			.attr('markerWidth', 3)
-			.attr('markerHeight', 3)
+			.attr('refX', 8)
+			.attr('markerWidth', 5)
+			.attr('markerHeight', 5)
 			.attr('orient', 'auto')
 			.append('svg:path')
-			.attr('d', 'M10,-5L0,0L10,5')
-			.attr('fill', '#000')
-		;*/
+			.attr('d', 'M0,-5L10,0L0,5')
+			.attr("class", "arrow")
+		;
+		
+		this.line = this.frame.append('svg:path')
+			.attr('class', 'link dragline hidden')
+			.attr('d', 'M0,0L0,0')
+			.style('marker-end', 'url(#fullarrow)')
+		;
 		
 	},
 	construct: function(){
+		
+		this.defs();
 		
 		this.E = this.frame.append('svg:g').selectAll('path');
 		this.V = this.frame.append('svg:g').selectAll('g');
@@ -47,32 +55,27 @@ var canvas = {
 				d.y = Math.max(C.radius, Math.min(y, d.y));
 				return "translate("+d.x+", "+d.y+")";
 			});
-			C.E.attr('d', function(d) {
+			C.E.attr('d', function(d) {/*
 				var dx = d.target.x - d.source.x,
-				dy = d.target.y - d.source.y,
-				dr = 180;
-				switch(d.type){
-					case 3:
-					case 0:
-					return "M" + d.source.x + "," + d.source.y 
-					+ "L" + d.target.x + "," + d.target.y;
-					case 2:
-					case 1:
-					return "M" + d.source.x + "," + d.source.y 
-					+ "A" + dr + "," + dr + " 0 0,"+(d.type%2) + " " 
-					+ d.target.x + "," + d.target.y;
-					default:
-					var deg = [100, 80, 74, 120, 88, 76];
-					dr = (d.type-4<deg.length) ? deg[d.type-4] : 0;
-					return "M" + d.source.x+","+d.source.y 
-					+ "A" + dr+","+dr + " 0 0," + /*(d.type%2)*/1 + " " 
-					+ d.target.x+","+d.target.y;
+					dy = d.target.y - d.source.y,*/
+				var pS = d.source.x + "," + d.source.y,
+					pT = d.target.x + "," + d.target.y;
+				if(!d.type){
+					return "M" + pS + "L" + pT;
+				} else {
+					var deg = [180, 105, 83, 76, 50, 320, 128, 92, 78.5, 75];
+					deg = deg[(Math.ceil(d.type/2)-1) % deg.length];
+					/*if(d.type == 1) deg = 180;
+					if(d.type == 2) deg = 180;
+					if(d.type == 3) deg = 100;
+					if(d.type == 4) deg = 100;*/
+					deg = deg + "," + deg;
+					return "M"+pS+" A" + deg + " 0 0," + (d.type%2) + " "+pT;
 				}
-			});
+			}).attr("data-type", function(d){return d.type});
 		}
 		
 		this.frame.attr("data-key", -1);
-		this.defs();
 		
 		this.force.nodes(graph.V).links(graph.E).on("tick", C.step);
 
@@ -88,6 +91,9 @@ var canvas = {
 		this.rebuild();
 	},
 	rebuild: function(){
+		
+		this.frame.classed("directed", graph.getType(true));
+		
 		var C = this;
 		
 		// ID wierzcho³ków
@@ -111,15 +117,33 @@ var canvas = {
 			.attr("r", this.radius)
 			.style('fill', function(d){return C.colors(d.id)})
 			
-			.on("mousedown", function(){
+			.on("mousedown", function(v){
 				if(C.frame.classed("ctrl")){
 					C.frame.classed('dragging', true);
+				} else {
+					d3.event.stopPropagation();
+					cl("Vertex "+v.id+" selected");
+					canvas.activeVertex = v;
+					canvas.line.classed("hidden", false);
+					canvas.frame.classed("draw", true);
+					//mousemove();
 				}
 			})
 			.on("dblclick", function(v){
 				d3.event.stopPropagation();
 				if(C.frame.classed("ctrl")){
 					graph.removeVertex(v);
+					canvas.rebuild();
+				}
+			})
+			.on("mouseup", function(v){
+				if(!canvas.frame.classed("ctrl")
+				&& canvas.activeVertex){
+					if(canvas.activeVertex.id !== v.id){
+						cl("Edge to "+v.id);
+						graph.addEdge(canvas.activeVertex.id, v.id);
+						canvas.rebuild();
+					}
 				}
 			})
 		;
@@ -141,12 +165,13 @@ var canvas = {
 		var nowa = this.E.enter().append("svg:path")
 			.attr("class", "path link")
 			.style('marker-end', 'url(#arrow)')
-			.attr("data-type", function(d){return d.type})
+			//.attr("data-type", function(d){return d.type})
 		
 			.on("dblclick", function(v){
 				d3.event.stopPropagation();
 				if(C.frame.classed("ctrl")){
 					graph.removeEdge(v);
+					canvas.rebuild();
 				}
 			})
 		;
@@ -158,12 +183,12 @@ var canvas = {
 	},
 	updateForce: function(p, v){
 		this.force.stop();
-		if(p === undefined){
+		if(typeof p === "undefined"){
 			this.force.start();
 			return;
 		}
 		if(p === "distance") p = "linkDistance";
-		if(v === undefined)	return this.force[p]();
+		if(typeof v === "undefined") return this.force[p]();
 		this.force[p](v);
 		this.force.start();
 	},

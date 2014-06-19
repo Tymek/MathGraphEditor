@@ -34,9 +34,6 @@ h1 {
 	margin-right: -200px;
 }
 
-svg {
-	display: block; /*5px bug*/
-}
 
 #panel {
 	font-family: Monda, "Helvetica Neue", Arial, sans-serif;
@@ -52,10 +49,33 @@ svg {
 	margin: 0;
 }
 
+hr {
+	margin: 1em 0;
+	border-top: 1px solid #bbb;
+	border-bottom: 1px solid #e8e8e8;
+}
 
-.link {
-	stroke: #000000;
-	stroke-width: 1.5px;
+label {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+input[type="checkbox"]{
+	cursor: pointer;
+}
+
+svg {
+	display: block; /*5px bug*/
+	background-color: #f0f0f0;
+	cursor: default;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
 }
 
 .node, .vertex {
@@ -78,34 +98,41 @@ svg {
 	cursor: -moz-grabbing;
 }
 
-svg {
-	background-color: #f0f0f0;
-	cursor: default;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	-o-user-select: none;
-	user-select: none;
+.draw .vertex {
+	cursor: crosshair;
 }
 
-svg:not(.active):not(.ctrl) {
-	cursor: default;
-}
-
-path.link {
+path {
 	fill: none;
 	stroke: #222;
 	stroke-width: 2px;
+}
+
+.ctrl path.link {
+	cursor: pointer !important;
+}
+
+/*
+svg:not(.active):not(.ctrl) {
 	cursor: default;
 }
+*/
 
 .arrow {
 	fill: #22222;
+	stroke: none;
 }
 
+svg defs {
+	display: none;
+}
+svg.directed defs {
+	display: inline;
+}
+/*
 svg:not(.active):not(.ctrl) path.link {
 	cursor: default;
-}
+}*/
 
 path.link.selected {
 	stroke-dasharray: 10,2;
@@ -143,6 +170,9 @@ text.label {
 	fill: #222222;
 }
 
+
+
+/*
 .c1 {background: #1f77b4;}
 .c2 {background: #aec7e8;}
 .c3 {background: #ff7f0e;}
@@ -163,3 +193,4 @@ text.label {
 .c18 {background: #dbdb8d;}
 .c19 {background: #17becf;}
 .c20 {background: #9edae5;}
+*/

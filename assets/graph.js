@@ -5,7 +5,7 @@ var graph = {
 		this.pushVertex(this.makeVertex(label,id));
 	},
 	makeVertex: function(label, id){
-		if(id === undefined){
+		if(typeof id === "undefined"){
 			for(var j = 0; j < this.V.length+1; j++){
 				for(var i = 0; i < this.V.length; i++){
 					if(this.V[i].id == j) break;
@@ -14,53 +14,38 @@ var graph = {
 			}
 			id = j;
 		}
-		if(label === undefined) label = this.generateID();
+		if(typeof label === "undefined") label = this.generateID();
 		return {id:id, label: label};
 	},
 	pushVertex: function(v){
 		this.V.push(v);
+		
 	},
 	removeVertex: function(v){
 		cl("Remove vertex");
 		this.cutEdges(v);
 		V = this.V;
 		V.splice(V.indexOf(v), 1);
-		rebuild();
 	},
 	addEdge: function(s, t){
-		if(s==t) type = -1; // loop
-		else { // okreœl ile jest krawêdzi "na tej samej trasie"
-			var source = [];
-			var target = [];
-			var type = $.grep(this.E, function(n, i){
-				if(n.source.id == s && n.target.id == t){
-					source.push(i);
-					return true;
-				}
-				if(n.source.id == t && n.target.id == s){
-					target.push(i);
-					return true;
-				}
-				return false;
-			});
-			if(type.length == 1){
-				if(source.length == 1){
-					this.E[source[0]].type = 2;
-				} else {
-					this.E[target[0]].type = 1;
-				}
-				type = 1;
-				/*
-				for(var i = 0; i<tmp.length; i++){
-					this.E[tmp[i]].type = type.length;
-				}*/
-			} else if(type.length == 0){
-				type = 0;
-			} else {
-				type = type.length + 1;
-			}
+		if(s==t) type = -1;
+		else type = 0;
+		if(typeof s == "number") s = this.searchVertex(s);
+		if(typeof t == "number") t = this.searchVertex(t); 
+		this.E.push({
+			source: s,
+			target: t,
+			type: type
+		});
+		this.rebuildEdges(s, t);
+	},
+	searchVertex: function(id, byLabel){
+		if(typeof byLabel === "undefined") byLabel = false;
+		for(var i = 0; i < this.V.length; i++){
+			if(!byLabel) if(this.V[i].id == id) return this.V[i];
+			else if(this.V[i].label == id) return this.V[i];
 		}
-		this.E.push({source: this.V[s], target: this.V[t], type: type});
+		return null;
 	},
 	cutEdges: function(v){
 		var E = this.E;
@@ -70,18 +55,45 @@ var graph = {
 		tmp.map(function(e) {
 			E.splice(E.indexOf(e), 1);
 		});
-		rebuild();
 	},
 	removeEdge: function(e){
 		E = this.E;
 		E.splice(E.indexOf(e), 1);
-		rebuild();
-		// TODO sprawdzanie struktury krawêdzi równoleg³ych
+		this.rebuildEdges(e.source, e.target);
 	},
-	type: 0,
-	types: ["undirected", "directed"/* TODO, "mixed"*/],
+	rebuildEdges: function(s, t){
+		// Coby nie wyœwietla³o jednej krawêdzi na drugiej
+		// Wa¿ne zarówno przy dodawaniu nowej krawêdzi jak i przy usuwaniu
+		if(typeof s == "number") {
+			s = this.searchVertex(s);
+		}
+		s = s.id;
+		if(typeof t == "number"){
+			t = this.searchVertex(t); 
+		}
+		t = t.id;
+		var i,
+			tmp = [];
+		for(i = 0; i < this.E.length; i++){
+			var e = {s: this.E[i].source.id, t: this.E[i].target.id};
+			if(e.s==s && e.t==t) tmp.push([i,true]);
+			else if(e.s==t && e.t==s) tmp.push([i,false]);
+		}
+		//cl(tmp);
+		i = 0;
+		if(tmp.length == 2) i++; // Utwórz dwie zaokr¹glone
+		
+		for(var j = 0; j < tmp.length; j++){
+			if(tmp[j][1] || i == 0){
+				this.E[tmp[j][0]].type = i;
+			} else {
+				this.E[tmp[j][0]].type = (i%2)? i+1 : i-1 ;
+			}
+			i++;
+		}
+	},
 	getId: function(id, suffix){ // identyfikator wierzcho³ka (A,B,…,AA,…)
-		if(suffix === undefined) var suffix = "";
+		if(typeof suffix === "undefined") var suffix = "";
 		if(id <= 25){
 			return String.fromCharCode(id+65) + suffix;
 		} else {
@@ -89,12 +101,14 @@ var graph = {
 		}
 	},
 	generateID: function(i){
-		if(i === undefined) var i = 0;
+		if(typeof i === "undefined") var i = 0;
 		for(var j = 0; j < this.V.length; j++){
 			if(this.V[j].label == this.getId(i)) return this.generateID(i+1);
 		}
 		return this.getId(i);
 	},
+	type: 1,
+	types: ["undirected", "directed"/* TODO, "mixed"*/],
 	setType: function(type){
 		if(typeof type === 'number'){
 			type = this.types[type];
@@ -114,7 +128,7 @@ var graph = {
 		}
 	},
 	getType: function(id){
-		if(id === undefined) id = false;
+		if(typeof id === "undefined") id = false;
 		return (id) ? this.type : this.types[this.type];
 	}
 }

@@ -25,6 +25,7 @@
 			graph.addVertex();
 			//V.push({id: i, label: graph.generateID()});
 		}
+		
 		graph.addEdge(0,1);
 		graph.addEdge(0,2);
 		graph.addEdge(1,2);
@@ -36,5 +37,6 @@
 
 	
 	canvas.construct();
-
+	
 })(jQuery);
+	$("#gtype").change(flipType);
