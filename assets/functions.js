@@ -31,10 +31,10 @@ function mouseup(){
 
 function keydown(){
 	var k = d3.event.keyCode;
-	if(!(k >= 112 && k <= 123)) d3.event.preventDefault();
+	//if(!(k >= 112 && k <= 123)) d3.event.preventDefault();
 	if(canvas.frame.attr('data-key') != -1) return;
-	cl("Key pressed ("+k+")");
-	if(k !== 9) canvas.frame.attr('data-key', k);
+	//cl("Key pressed ("+k+")");
+	//if(k !== 9) canvas.frame.attr('data-key', k);
 	
 	if(k == 17){
 		canvas.V.call(canvas.force.drag);
@@ -81,3 +81,46 @@ function flipType(e){
 	}
 	canvas.rebuild();
 }
+
+
+(function($) {
+    $.fn.slideinput = function(opt) {
+
+        opt = $.extend({handle:"",cursor:"col-resize"}, opt);
+
+        if(opt.handle === "") {
+            var $el = this;
+        } else {
+            var $el = this.find(opt.handle);
+        }
+
+        return $el.css('cursor', opt.cursor).on("mousedown", function(e) {
+            if(opt.handle === "") {
+                var $drag = $(this).addClass('draggable');
+            } else {
+                var $drag = $(this).addClass('active-handle').parent().addClass('draggable');
+            }
+            var z_idx = $drag.css('z-index'),
+                drg_h = $drag.outerHeight(),
+                drg_w = $drag.outerWidth(),
+                pos_y = $drag.offset().top + drg_h - e.pageY,
+                pos_x = $drag.offset().left + drg_w - e.pageX;
+            $drag.css('z-index', 1000).parents().on("mousemove", function(e) {
+                $('.draggable').offset({
+                    top:e.pageY + pos_y - drg_h,
+                    left:e.pageX + pos_x - drg_w
+                }).on("mouseup", function() {
+                    $(this).removeClass('draggable').css('z-index', z_idx);
+                });
+            });
+            e.preventDefault(); // disable selection
+        }).on("mouseup", function() {
+            if(opt.handle === "") {
+                $(this).removeClass('draggable');
+            } else {
+                $(this).removeClass('active-handle').parent().removeClass('draggable');
+            }
+        });
+
+    }
+})(jQuery);

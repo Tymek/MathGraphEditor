@@ -1,5 +1,5 @@
 var canvas = {
-	frame: d3.select("#main").append("svg"),
+	frame: d3.select("#main svg"),//.append("svg"),
 //	V: null,
 //	E: null,
 	radius: 12,
@@ -96,10 +96,10 @@ var canvas = {
 		
 		var C = this;
 		
-		// ID wierzcho砶體
+		// ID wierzcho艂k贸w
 		this.V = this.V.data(graph.V, function(d){return d.id;});
 		
-		// Aktualizacja istniej筩ych wierzcho砶體
+		// Aktualizacja istniej膮cych wierzcho艂k贸w
 		this.V.selectAll('circle')
 			// TODO mixed
 			//.classed('mixed', function(d) { return d.undirected; })
@@ -109,7 +109,7 @@ var canvas = {
 			})
 		;
 		
-		// Dodawanie nowych wierzcho砶體
+		// Dodawanie nowych wierzcho艂k贸w
 		var nowy = this.V.enter().append('svg:g');
 		
 		nowy.append('svg:circle')
@@ -155,11 +155,11 @@ var canvas = {
 			.text(function(d){return d.label})
 		;
 		
-		// Usuwanie wierzcho砶體
+		// Usuwanie wierzcho艂k贸w
 		this.V.exit().remove();
 		
 		
-		// Kraw阣zie
+		// Kraw臋dzie
 		this.E = canvas.E.data(graph.E);
 		
 		var nowa = this.E.enter().append("svg:path")

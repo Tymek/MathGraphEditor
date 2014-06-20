@@ -62,8 +62,8 @@ var graph = {
 		this.rebuildEdges(e.source, e.target);
 	},
 	rebuildEdges: function(s, t){
-		// Coby nie wyœwietla³o jednej krawêdzi na drugiej
-		// Wa¿ne zarówno przy dodawaniu nowej krawêdzi jak i przy usuwaniu
+		// Coby nie wyÅ›wietlaÅ‚o jednej krawÄ™dzi na drugiej
+		// WaÅ¼ne zarÃ³wno przy dodawaniu nowej krawÄ™dzi jak i przy usuwaniu
 		if(typeof s == "number") {
 			s = this.searchVertex(s);
 		}
@@ -81,7 +81,7 @@ var graph = {
 		}
 		//cl(tmp);
 		i = 0;
-		if(tmp.length == 2) i++; // Utwórz dwie zaokr¹glone
+		if(tmp.length == 2) i++; // UtwÃ³rz dwie zaokrÄ…glone
 		
 		for(var j = 0; j < tmp.length; j++){
 			if(tmp[j][1] || i == 0){
@@ -92,7 +92,7 @@ var graph = {
 			i++;
 		}
 	},
-	getId: function(id, suffix){ // identyfikator wierzcho³ka (A,B,…,AA,…)
+	getId: function(id, suffix){ // identyfikator wierzchoÅ‚ka (A,B,â€¦,AA,â€¦)
 		if(typeof suffix === "undefined") var suffix = "";
 		if(id <= 25){
 			return String.fromCharCode(id+65) + suffix;

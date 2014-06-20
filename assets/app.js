@@ -2,7 +2,7 @@
 
 (function($){
 	cl("Application starting…");
-
+/*
 	var width = $("body").width() - $("#panel").outerWidth(),
 		height = $("body").height();
 		
@@ -10,8 +10,10 @@
 
 	$("#main").width(width).height(height);
 		//.bind("contextmenu",function(e){e.preventDefault();});
-	$("#panel").height(height-40);
-
+	$("#panel").css("min-height", height-40);
+*/
+	var width = $("body").width() - $("#panel").outerWidth(),
+		height = $("body").height();
 	canvas.frame.attr('width', width)
 				.attr('height', height);
 
@@ -36,7 +38,26 @@
 	}
 
 	
+	
+	$.fn.bindVal = function(){
+		if(this.length){
+			return this.each(function(){
+				var $t = $(this),
+					val;
+				val = canvas.updateForce($t.attr("name"));
+				$t.val(val);
+				$t.prop("disabled", true);
+				canvas.rebuild();
+			});
+		}
+	}
+	
+	
 	canvas.construct();
 	
 })(jQuery);
+
+	$("#settings input[type=text]").bindVal();
 	$("#gtype").change(flipType);
+
+
