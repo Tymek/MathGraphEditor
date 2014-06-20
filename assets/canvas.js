@@ -10,26 +10,26 @@ var canvas = {
 		
 		this.frame.append('svg:defs').append('svg:marker')
 			.attr('id', 'arrow')
-			.attr('viewBox', '0 -5 10 10')
-			.attr('refX', 21)
+			.attr('refX', 11.5)
+			.attr('refY', 2.5)
 			.attr('markerWidth', 5)
 			.attr('markerHeight', 5)
 			.attr('orient', 'auto')
 			.append('svg:path')
-			.attr('d', 'M0,-5L10,0L0,5')
+			.attr('d', 'M0,0 L5,2.5 L0,5 Z')
 			.attr("class", "arrow")
 		;
 		
 		this.frame.append('svg:defs').append('svg:marker')
 			.attr('id', 'fullarrow')
-			.attr('viewBox', '0 -5 10 10')
-			.attr('refX', 8)
+			.attr('refX', 4)
+			.attr('refY', 2.5)
 			.attr('markerWidth', 5)
 			.attr('markerHeight', 5)
 			.attr('orient', 'auto')
 			.append('svg:path')
-			.attr('d', 'M0,-5L10,0L0,5')
-			.attr("class", "arrow")
+		.attr('d', 'M0,0 L5,2.5 L0,5 Z')
+		.attr("class", "arrow")
 		;
 		
 		this.line = this.frame.append('svg:path')

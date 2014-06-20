@@ -21,25 +21,25 @@
 		<hr>
 		<h2 class="toggle on" data-target="#settings">Ustawienia wyświetlania</h2>
 		<form action="#" id="settings">
-			<input type="text" name="linkDistance" id="linkDistance" value="">
+			<input type="range" name="linkDistance" id="linkDistance" value="150" min="50" max="500" step="25">
 			<label for="linkDistance">Długość krawędzi</label>
 		<br>
-			<input type="text" name="linkStrength" id="linkStrength" value="">
+			<input type="range" name="linkStrength" id="linkStrength" value="1" min="0" max="2" step="0.05">
 			<label for="linkStrength">Sztywność krawędzi</label>
 		<br>
-			<input type="text" name="friction" id="friction" value="">
+			<input type="range" name="friction" id="friction" value="0.8" min="0" max="0.95" step="0.025">
 			<label for="friction">Współczynnik tarcia</label>
 		<br>
-			<input type="text" name="charge" id="charge" value="">
+			<input type="range" name="charge" id="charge" value="-500" min="-600" max="-25" step="5">
 			<label for="charge">Ładunek elektrostatyczny</label>
 		<br>
-			<input type="text" name="chargeDistance" id="chargeDistance" value="">
+			<input type="range" name="chargeDistance" id="chargeDistance" value="2000" min="100" max="2500" step="100">
 			<label for="chargeDistance">Odległości oddziaływania</label>
 		<br>
-			<input type="text" name="linkDistance" id="theta" value="">
+			<input type="range" name="theta" id="theta" value="0.8" min="0.05" max="0.95" step="0.05">
 			<label for="theta">Współczynnik dokładności <span lang="gr" title="Theta">&Theta;</span></label>
 		<br>
-			<input type="text" name="gravity" id="gravity" value="">
+			<input type="range" name="gravity" id="gravity" value="0.1" min="0" max="0.5" step="0.025">
 			<label for="gravity">Oddziaływanie grawitacyjne</label>
 		</form>
 		<hr>

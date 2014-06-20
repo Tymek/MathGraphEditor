@@ -1,23 +1,9 @@
 //jQuery.noConflict();
 
 (function($){
+
 	cl("Application starting…");
-
-	var width = $("body").width() - $("#panel").outerWidth(),
-		height = $("body").height();
-		
-	cl("Canvas size: "+width+"x"+height);
-
-	$("#main").width(width).height(height);
-
-	var width = $("body").width() - $("#panel").outerWidth(),
-		height = $("body").height();
-	canvas.frame.attr('width', width)
-				.attr('height', height);
-
-	canvas.force.size([width,height])
-		.linkDistance(150) // TODO wczytanie poprzednich ust.
-		.charge(-500);
+	set_size();
 
 	/* TODO - wczytanie poprzedniego grafu */
 	if(!graph.V.length){ // Pusty graf na starcie. Wczytaj przykładowy
@@ -34,28 +20,18 @@
 		graph.addEdge(3,0);
 		graph.addEdge(3,1);
 	}
-
-	
-	
-	$.fn.bindVal = function(){
-		if(this.length){
-			return this.each(function(){
-				var $t = $(this),
-					val;
-				val = canvas.updateForce($t.attr("name"));
-				$t.val(val);
-				$t.prop("disabled", true);
-				canvas.rebuild();
-			});
-		}
-	}
-	
 	
 	canvas.construct();
 	
 })(jQuery);
 
-	$("#settings input[type=text]").bindVal();
-	$("#gtype").change(flipType);
+$("#settings input[type=range]").bindVal();
+
+$("#gtype").change(flipType);
+
+$(window).safe_resize(function(){
+	set_size();
+	canvas.rebuild();
+}, 1500);
 
 

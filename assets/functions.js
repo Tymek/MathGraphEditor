@@ -82,8 +82,49 @@ function flipType(e){
 	canvas.rebuild();
 }
 
+function set_size(){
+	var width = $("body").width() - $("#panel").outerWidth(),
+		height = $("body").height();
+		
+	//cl("Canvas size: "+width+"x"+height);
+
+	$("#main").width(width);//.height(height);
+	
+	canvas.frame.attr('width', width)
+				.attr('height', height);
+
+	canvas.force.size([width,height]);
+}
+
 
 (function($) {
+	
+	
+	$.fn.bindVal = function(){
+		if(this.length){
+			return this.each(function(){
+				var $t = $(this);
+				canvas.updateForce($t.attr("name"), $t.val());
+				$t.on("change", function(){
+					canvas.updateForce($(this).attr("name"), $(this).val());
+				}).on("mousemove",function(){
+					if($(this).is(":active")){
+						canvas.updateForce($(this).attr("name"), $(this).val());
+					}
+				});
+				//$t.prop("disabled", true);
+				canvas.rebuild();
+			});
+		}
+	}
+	$.fn.safe_resize = function (f, delay){
+		if(typeof delay === "undefined") var delay = 1000;
+		this.on("resize", function(){
+			clearTimeout(window._resize_delay_$);
+			window._resize_delay_$ = setTimeout(f, delay);
+		});
+	};
+	/*
     $.fn.slideinput = function(opt) {
 
         opt = $.extend({handle:"",cursor:"col-resize"}, opt);
@@ -123,4 +164,5 @@ function flipType(e){
         });
 
     }
+	*/
 })(jQuery);
