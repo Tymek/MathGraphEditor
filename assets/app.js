@@ -2,16 +2,14 @@
 
 (function($){
 	cl("Application starting…");
-/*
+
 	var width = $("body").width() - $("#panel").outerWidth(),
 		height = $("body").height();
 		
 	cl("Canvas size: "+width+"x"+height);
 
 	$("#main").width(width).height(height);
-		//.bind("contextmenu",function(e){e.preventDefault();});
-	$("#panel").css("min-height", height-40);
-*/
+
 	var width = $("body").width() - $("#panel").outerWidth(),
 		height = $("body").height();
 	canvas.frame.attr('width', width)
