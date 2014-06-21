@@ -204,6 +204,9 @@ var canvas = {
 		this.E.exit().remove();
 		
 		this.force.start();
+		
+		properities.rebuild();
+		
 		cl("Canvas reloaded");
 	},
 	updateForce: function(p, v){
