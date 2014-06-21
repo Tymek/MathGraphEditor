@@ -21,11 +21,28 @@
 		graph.addEdge(3,1);
 	}
 	
+	$(".toggle").on("click", function(e){
+		e.preventDefault();
+		var $t;
+		if($(this).attr("data-toggle") !== "undefined"){
+			$t = $(this).attr("data-toggle");
+			$(this).attr("data-toggle", $(this).text());
+			$(this).text($t);
+		}
+		if($(this).attr("data-target") !== "undefined"){
+			$t = $($(this).attr("data-target"));
+		} else {
+			$t = $(this);
+		}
+		$($t).stop().slideToggle();
+	});
+	
 	canvas.construct();
 	
 })(jQuery);
 
 $("#settings input[type=range]").bindVal();
+
 
 $("#gtype").change(flipType);
 

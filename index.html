@@ -19,8 +19,13 @@
 		<h1>Dynamiczna wizualizacja grafów</h1>
 		<p>Przytrzymaj Ctrl i chwyć wierzchołek aby go przesunąć. Kliknij dwukrotnie w wolnym miejscu aby dodać wierzchołek. Przytrzymaj Ctrl i kliknij dwukrotnie na wierzchołek lub krawędź by usunąć. Przeciągnij linię z jednego wierzchołka na drugi by dodać krawędź.</p>
 		<hr>
-		<h2 class="toggle on" data-target="#settings">Ustawienia wyświetlania</h2>
-		<form action="#" id="settings">
+		<h2>Ustawienia</h2>
+		<form action="#">
+			<input type="checkbox" name="gtype" id="gtype" checked>
+			<label for="gtype">Graf skierowany</label>
+		</form>
+		<a href="#settings" id="advanced" data-target="#settings" class="toggle" data-toggle="Ukryj zaawansowane &laquo;">Pokaż zaawansowane &raquo;</a>
+		<form action="#" id="settings" style="display:none">
 			<input type="range" name="linkDistance" id="linkDistance" value="150" min="50" max="500" step="25">
 			<label for="linkDistance">Długość krawędzi</label>
 		<br>
@@ -43,10 +48,6 @@
 			<label for="gravity">Oddziaływanie grawitacyjne</label>
 		</form>
 		<hr>
-		<form action="#">
-			<input type="checkbox" name="gtype" id="gtype" checked>
-			<label for="gtype">Graf skierowany</label>
-		</form>
 	</div></aside>
 <script>
 function cl(x){console.log(x)};
