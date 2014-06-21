@@ -49,6 +49,9 @@
 		</form>
 		<hr>
 		<h2>Właściwości grafu</h2>
+		<p id="properities">Graf prosty: <span data-properity="isSimple"></span>
+			
+		</p>
 	</div></aside>
 <script>
 function cl(x){console.log(x)};
@@ -136,6 +139,16 @@ var loader = {
 			load: 'assets/graph.js',
 			callback: function(){
 				cl("Graph object loaded");
+				t.prop();
+			}
+		});
+	},
+	prop: function(){
+		var t = this;
+		yepnope({
+			load: 'assets/properities.js',
+			callback: function(){
+				cl("Algorithms loaded");
 				t.canvas();
 			}
 		});
