@@ -1,15 +1,14 @@
 var properities = {
 	isSimple: function(){
 		for(var i = 0; i < graph.E.length; i++){
-			if(graph.E[i].type != 0) return false;
+			if(graph.E[i].type != 0) return "nie";
 		}
-		return true;
+		return "tak";
 	},
 	rebuild: function(){
 		var t = this;
 		$("#properities span").text(function(){
-			var text = t[$(this).attr("data-properity")]();
-			return (text)?"tak":"nie";
+			return t[$(this).attr("data-properity")]();
 		});
 	}
 }

@@ -52,7 +52,13 @@
 		<p id="properities">Graf prosty: <span data-properity="isSimple"></span>
 			
 		</p>
-	</div></aside>
+		<footer>
+			<a href="http://github.com/Tymek/MathGraphEditor">MathGraph</a>, 2014 <a href="http://fmi.pk.edu.pl">WMFiI PK</a><br>
+			<a href="http://www.tymek.cz/">Tymoteusz Czech</a>, <a href="http://buksa.eu/">Seweryn Buksa</a>
+			
+		</footer>
+	</div>
+	</aside>
 <script>
 function cl(x){console.log(x)};
 
@@ -146,7 +152,7 @@ var loader = {
 	prop: function(){
 		var t = this;
 		yepnope({
-			load: 'assets/properities.js',
+			load: 'assets/properties.js',
 			callback: function(){
 				cl("Algorithms loaded");
 				t.canvas();

@@ -55,10 +55,10 @@ var canvas = {
 				y = Math.max(C.radius, Math.min(y, d.y));
 				return "translate("+x+", "+y+")";
 			});
-			C.E.attr('d', function(d) {/*
-				var dx = d.target.x - d.source.x,
-					dy = d.target.y - d.source.y,*/
-					
+			C.E.attr('d', function(d) {
+				
+				// TODO wykrywanie kolizji
+				
 				var pS = d.source.x + "," + d.source.y,
 					pT = d.target.x + "," + d.target.y;
 				if(d.type < 0){ // Pętla
@@ -192,7 +192,7 @@ var canvas = {
 			.style('marker-end', 'url(#arrow)')
 			//.attr("data-type", function(d){return d.type})
 		
-			.on("dblclick", function(v){
+			.on("click", function(v){
 				d3.event.stopPropagation();
 				if(C.frame.classed("ctrl")){
 					graph.removeEdge(v);

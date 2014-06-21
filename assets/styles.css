@@ -25,6 +25,7 @@ h1 {
 	line-height: 1em;
 	margin-bottom: .5em;
 	margin-top: 0;
+	padding-top: 20px;
 }
 
 h2 {
@@ -63,8 +64,10 @@ h2 {
 	margin: 0;
 }
 .inner {
-	padding: 20px;
+	padding: 0 20px ;
 	background: #e0e0e0;
+	position: relative;
+	min-height: 100%;
 }
 
 .toggle {
@@ -77,9 +80,16 @@ h2 {
 	color: #2251B4;
 	/*text-decoration: none;*/
 }
-
+#properities {
+	padding-bottom: 80px;
+}
 #properities span {
 	font-weight: bold;
+}
+
+footer {
+	position: absolute;
+	bottom: 20px;
 }
 
 hr {
