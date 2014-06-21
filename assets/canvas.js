@@ -60,7 +60,9 @@ var canvas = {
 					dy = d.target.y - d.source.y,*/
 				var pS = d.source.x + "," + d.source.y,
 					pT = d.target.x + "," + d.target.y;
-				if(!d.type){
+				if(d.type < 0){ // Pętla
+					
+				} else if(!d.type){
 					return "M" + pS + "L" + pT;
 				} else {
 					var deg = [180, 105, 83, 76, 50, 320, 128, 92, 78.5, 75];
@@ -143,7 +145,27 @@ var canvas = {
 						cl("Edge to "+v.id);
 						graph.addEdge(canvas.activeVertex.id, v.id);
 						canvas.rebuild();
+					} else if(canvas.frame.classed("offdrag")){
+						cl("Loop in "+v.id);
+						
 					}
+				}
+			})
+			.on("mousemove", function(v){
+				if(canvas.activeVertex 
+				&& canvas.activeVertex.id === v.id) d3.event.stopPropagation();
+				if(canvas.frame.classed("offdrag")){
+					//var p = d3.mouse(canvas.frame[0][0]);
+					/*p = 'M' + canvas.activeVertex.x+','+canvas.activeVertex.y
+					 + 'L' + p[0] + ',' + p[1];*/
+					p = "M" + canvas.activeVertex.x+','+canvas.activeVertex.y
+					p+= " A"+"30,30 0 1,1 ";
+					if(d3.event.x == canvas.activeVertex.x){
+						p+= d3.event.x+1+","+d3.event.y;
+					} else {
+						p+= d3.event.x+","+d3.event.y;
+					}
+					canvas.line.attr('d', p);				
 				}
 			})
 		;
