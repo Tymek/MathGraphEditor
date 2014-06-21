@@ -50,7 +50,7 @@ function keyup(){
         canvas.frame.classed('ctrl', false);
     }
 	
-	canvas.frame.attr("data-key", -1);
+	//canvas.frame.attr("data-key", -1);
 }
 
 function dblclick(){

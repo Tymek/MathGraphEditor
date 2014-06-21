@@ -81,15 +81,22 @@ var graph = {
 		}
 		//cl(tmp);
 		i = 0;
-		if(tmp.length == 2) i++; // Utwórz dwie zaokrąglone
-		
-		for(var j = 0; j < tmp.length; j++){
-			if(tmp[j][1] || i == 0){
-				this.E[tmp[j][0]].type = i;
-			} else {
-				this.E[tmp[j][0]].type = (i%2)? i+1 : i-1 ;
+		if(s!=t){
+			if(tmp.length == 2) i++; // Utwórz dwie zaokrąglone
+			
+			for(var j = 0; j < tmp.length; j++){
+				if(tmp[j][1] || i == 0){
+					this.E[tmp[j][0]].type = i;
+				} else {
+					this.E[tmp[j][0]].type = (i%2)? i+1 : i-1 ;
+				}
+				i++;
 			}
-			i++;
+		}
+		else {
+			while(i++ < tmp.length){
+				this.E[tmp[i-1][0]].type = i * (-1);
+			}
 		}
 	},
 	getId: function(id, suffix){ // identyfikator wierzchołka (A,B,…,AA,…)

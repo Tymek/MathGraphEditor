@@ -51,26 +51,28 @@ var canvas = {
 			C.V.attr("transform", function(d){
 				var x = C.force.size()[0] - (C.radius + 1),
 					y = C.force.size()[1] - (C.radius + 1);
-				d.x = Math.max(C.radius, Math.min(x, d.x));
-				d.y = Math.max(C.radius, Math.min(y, d.y));
-				return "translate("+d.x+", "+d.y+")";
+				x = Math.max(C.radius, Math.min(x, d.x));
+				y = Math.max(C.radius, Math.min(y, d.y));
+				return "translate("+x+", "+y+")";
 			});
 			C.E.attr('d', function(d) {/*
 				var dx = d.target.x - d.source.x,
 					dy = d.target.y - d.source.y,*/
+					
 				var pS = d.source.x + "," + d.source.y,
 					pT = d.target.x + "," + d.target.y;
 				if(d.type < 0){ // Pętla
-					
+					pT = (d.source.x-1) + "," + (d.source.y-1);
+					$(this).attr("style", "");
+					var deg = [25,20,30,15,35,45,50,55,60,65];
+					deg = deg[((d.type*(-1))-1) % deg.length];
+					deg = deg + "," + deg;
+					return "M"+pS+" A" + deg + " 0 1,1 " + pT;
 				} else if(!d.type){
 					return "M" + pS + "L" + pT;
 				} else {
 					var deg = [180, 105, 83, 76, 50, 320, 128, 92, 78.5, 75];
 					deg = deg[(Math.ceil(d.type/2)-1) % deg.length];
-					/*if(d.type == 1) deg = 180;
-					if(d.type == 2) deg = 180;
-					if(d.type == 3) deg = 100;
-					if(d.type == 4) deg = 100;*/
 					deg = deg + "," + deg;
 					return "M"+pS+" A" + deg + " 0 0," + (d.type%2) + " "+pT;
 				}
@@ -147,7 +149,8 @@ var canvas = {
 						canvas.rebuild();
 					} else if(canvas.frame.classed("offdrag")){
 						cl("Loop in "+v.id);
-						
+						graph.addEdge(v.id, v.id);
+						canvas.rebuild();
 					}
 				}
 			})
@@ -159,13 +162,13 @@ var canvas = {
 					/*p = 'M' + canvas.activeVertex.x+','+canvas.activeVertex.y
 					 + 'L' + p[0] + ',' + p[1];*/
 					p = "M" + canvas.activeVertex.x+','+canvas.activeVertex.y
-					p+= " A"+"30,30 0 1,1 ";
+					p+= " A"+"22.5,22.5 0 1,1 ";
 					if(d3.event.x == canvas.activeVertex.x){
 						p+= d3.event.x+1+","+d3.event.y;
 					} else {
 						p+= d3.event.x+","+d3.event.y;
 					}
-					canvas.line.attr('d', p);				
+					canvas.line.attr('d', p);			
 				}
 			})
 		;
