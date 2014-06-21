@@ -10,7 +10,7 @@ var canvas = {
 		
 		this.frame.append('svg:defs').append('svg:marker')
 			.attr('id', 'arrow')
-			.attr('refX', 11.5)
+			.attr('refX', 11)
 			.attr('refY', 2.5)
 			.attr('markerWidth', 5)
 			.attr('markerHeight', 5)
@@ -22,7 +22,7 @@ var canvas = {
 		
 		this.frame.append('svg:defs').append('svg:marker')
 			.attr('id', 'fullarrow')
-			.attr('refX', 4)
+			.attr('refX', 3.5)
 			.attr('refY', 2.5)
 			.attr('markerWidth', 5)
 			.attr('markerHeight', 5)
