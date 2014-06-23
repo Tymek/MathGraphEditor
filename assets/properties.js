@@ -57,6 +57,12 @@ var properities = {
 		}
 		return "nie";
 	},
+	isTree: function(){
+		if(this.isSimple() == "tak" && this.isConnected() == "tak"
+		&& graph.V.length == (graph.E.length+1))
+			return "tak";
+		return "nie";
+	},
 	rebuild: function(){
 		var t = this;
 		$("#properities span").each(function(){
