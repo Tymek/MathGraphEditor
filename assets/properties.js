@@ -6,26 +6,26 @@ var properities = {
 		return "tak";
 	},
 	isConnected: function(){
-		this.visited = new Array(graph.V.length);
-
+		this.visited = new Array();
+		
+		for(var i = 0; i < graph.V.length; ++i)
+			this.visited[graph.V[i].id] = 0;
+		
+		this.visit(graph.V[0].id);
+		
 		for(var i = 0; i < this.visited.length; ++i)
-			this.visited[i] = 0;
-
-		this.visit(0);
-
-		for(var i = 0; i < this.visited.length; ++i)
-			if (this.visited[i] == 0) return "nie";
+		if (this.visited[i] == 0) return "nie";
 		return "tak";
 	},
 	visit: function(){
 		var id = arguments[0];
 		this.visited[id] = 1;
-
+		
 		for(var k = 0; k < graph.E.length; ++k){
 			if(graph.E[k].source.id == id && this.visited[graph.E[k].target.id] == 0)
-				this.visit(graph.E[k].target.id);
+			this.visit(graph.E[k].target.id);
 			else if(graph.E[k].target.id == id && this.visited[graph.E[k].source.id] == 0)
-				this.visit(graph.E[k].source.id);
+			this.visit(graph.E[k].source.id);
 		}
 	},
 	rebuild: function(){
