@@ -28,6 +28,35 @@ var properities = {
 			this.visit(graph.E[k].source.id);
 		}
 	},
+	isPlanar: function(){
+		if(this.isSimple() == "nie") return "nie dotyczy";
+		if(this.isConnected() == "tak"){
+			if(graph.E.length <= 3 * graph.V.length - 6)
+			{
+				var min = 0;
+				for(var i = 1; i < graph.V.length; ++i)
+				if(graph.V[i].weight < graph.V[min].weight)
+				min = i;
+				if(graph.V[min].weight <= 5)
+				return "tak";
+			}
+		}
+		return "nie";
+	},
+	isEulerian: function(){
+		if(this.isConnected() == "tak"){
+			var odd = 0;
+			for(var i = 0; i < graph.V.length; ++i)
+				if(graph.V[i].weight % 2 == 1)
+					++odd;
+			if(odd == 0) return "tak";
+			if(odd == 2){
+				if(graph.type == 0) return "tak";
+				return "półeulerowski";
+			}
+		}
+		return "nie";
+	},
 	rebuild: function(){
 		var t = this;
 		$("#properities span").each(function(){

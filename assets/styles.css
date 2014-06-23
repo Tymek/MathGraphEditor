@@ -82,6 +82,7 @@ h2 {
 }
 #properities {
 	padding-bottom: 80px;
+	margin-bottom: 0;
 }
 #properities span {
 	font-weight: bold;
